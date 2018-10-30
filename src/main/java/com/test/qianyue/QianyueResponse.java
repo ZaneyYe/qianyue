@@ -8,7 +8,9 @@ package com.test.qianyue;
 public class QianyueResponse {
 
 	private String resp;
+	private String cmd;
 	private String msg;
+	private String v;
 	private Params params;
 
 
@@ -36,11 +38,28 @@ public class QianyueResponse {
 		this.params = params;
 	}
 
+	public String getCmd() {
+		return cmd;
+	}
+
+	public void setCmd(String cmd) {
+		this.cmd = cmd;
+	}
+
+	public String getV() {
+		return v;
+	}
+
+	public void setV(String v) {
+		this.v = v;
+	}
+
 	public static class Params{
 		private String  accessToken;
 		private String  openId;
 		private String  backendToken;
 		private String  contractId;
+		private String expiresIn;
 
 		public String getAccessToken() {
 			return accessToken;
@@ -74,9 +93,12 @@ public class QianyueResponse {
 			this.contractId = contractId;
 		}
 
-		public static String getFileByName(String fieldName){
-//			Field field = this.get.getField(fieldName);
-			return "";
+		public String getExpiresIn() {
+			return expiresIn;
+		}
+
+		public void setExpiresIn(String expiresIn) {
+			this.expiresIn = expiresIn;
 		}
 	}
 
