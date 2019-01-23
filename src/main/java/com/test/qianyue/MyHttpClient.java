@@ -1,13 +1,14 @@
 package com.test.qianyue;
 
-import javafx.beans.binding.ObjectExpression;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -21,6 +22,8 @@ import java.util.TreeMap;
  */
 public class MyHttpClient {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MyHttpClient.class);
+
 	private String url;
 
 	private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -33,7 +36,7 @@ public class MyHttpClient {
 	}
 
 	/**
-	 * 请求返回信息
+	 * 请求返回信息  http json
 	 * @param param
 	 * @return
 	 */
@@ -43,7 +46,6 @@ public class MyHttpClient {
 		StringEntity entity = new StringEntity(param,"utf-8");//解决中文乱码问题
 		entity.setContentEncoding("UTF-8");
 		entity.setContentType("application/json");
-//		entity.setContentType("application/x-www-form-urlencoded");
 		post.setEntity(entity);
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -93,22 +95,18 @@ public class MyHttpClient {
 	 * @return
 	 * @throws IOException
 	 */
-	public static <T extends QianyueResponse> String sendPost(String targetUrl, Map<String,String> map,T t,String fieldName) throws IOException {
+	public static String sendPost(String targetUrl, Map<String,String> map) throws IOException {
 		String sn = "";
 		MyHttpClient client = new MyHttpClient(targetUrl);
 		String params = objectMapper.writeValueAsString(map);
 		System.out.println("请求参数：:" + params);
-
-		String res = client.excuteResult(params);
-//		System.out.println(res);
-
-		QianyueResponse qianyueResponse = objectMapper.readValue(res, t.getClass());
-		if(t.getResp().equals("00")){
-			sn = t.getParams().getQianyueId();
-		}else{
-			System.out.println(t.getMsg());
-		}
-		return sn;
+		String response = client.excuteResult(params);
+		LOGGER.info("sentclient response: {}",response);
+		return response;
 	}
+
+
+
+
 
 }

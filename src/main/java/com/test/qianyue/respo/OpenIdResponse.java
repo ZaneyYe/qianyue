@@ -1,16 +1,15 @@
-package com.test.qianyue;
+package com.test.qianyue.respo;
 
 /**
- * Created by yezhangyuan on 2018-10-29.
+ * Created by yezhangyuan on 2018-12-24.
  *
  * @author yezhangyuan
  */
-public class QianyueResponse {
+public class OpenIdResponse {
 
 	private String resp;
 	private String msg;
 	private Params params;
-
 
 	public String getResp() {
 		return resp;
@@ -37,10 +36,9 @@ public class QianyueResponse {
 	}
 
 	public static class Params{
+
 		private String  accessToken;
 		private String  openId;
-		private String  backendToken;
-		private String  contractId;
 
 		public String getAccessToken() {
 			return accessToken;
@@ -57,27 +55,5 @@ public class QianyueResponse {
 		public void setOpenId(String openId) {
 			this.openId = openId;
 		}
-
-		public String getBackendToken() {
-			return backendToken;
-		}
-
-		public void setBackendToken(String backendToken) {
-			this.backendToken = backendToken;
-		}
-
-		public String getContractId() {
-			return contractId;
-		}
-
-		public void setContractId(String contractId) {
-			this.contractId = contractId;
-		}
-
-		public static String getFileByName(String fieldName){
-//			Field field = this.get.getField(fieldName);
-			return "";
-		}
 	}
-
 }
