@@ -6,6 +6,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by yezhangyuan on 2019-01-08.
@@ -50,18 +51,22 @@ public class GenRSA {
 
 
 	public static void main(String[] args) throws Exception {
-		KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-		keyGen.initialize(1024);
-		KeyPair keyPair = keyGen.generateKeyPair();
-		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-		System.out.println("RSAPublicKey :: " +  DatatypeConverter.printBase64Binary(privateKey.getEncoded()));
-		System.out.println("RSAPrivateKeyModule :: "+ privateKey.getModulus());
-		System.out.println("RSAPrivateKeyExponent :: " +privateKey.getPrivateExponent());
+//		KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+//		keyGen.initialize(1024);
+//		KeyPair keyPair = keyGen.generateKeyPair();
+//		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+//		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+//		System.out.println("RSAPublicKey :: " +  DatatypeConverter.printBase64Binary(privateKey.getEncoded()));
+//		System.out.println("RSAPrivateKeyModule :: "+ privateKey.getModulus());
+//		System.out.println("RSAPrivateKeyExponent :: " +privateKey.getPrivateExponent());
+//
+//		System.out.println("RSAPublicKey :: " +  DatatypeConverter.printBase64Binary(publicKey.getEncoded()));
+//		System.out.println("RSAPublicKeyModule :: "+ publicKey.getModulus());
+//		System.out.println("RSAPublicKeyExponent ::"  + publicKey.getPublicExponent());
 
-		System.out.println("RSAPublicKey :: " +  DatatypeConverter.printBase64Binary(publicKey.getEncoded()));
-		System.out.println("RSAPublicKeyModule :: "+ publicKey.getModulus());
-		System.out.println("RSAPublicKeyExponent ::"  + publicKey.getPublicExponent());
+		System.out.println("87bsHfUjzYUQulX1ZpBNad9nImJ+ItQqwKJc6+AcS7oagapGeo2pqEkjGOJuFGK8".length());
+		System.out.println(UUID.randomUUID().toString().replaceAll("-",""));
+
 	}
 
 
