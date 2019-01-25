@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+ path;
+%>
 <html>
   <head>
       <!-- meta使用viewport以确保页面可自由缩放 -->
@@ -21,6 +25,7 @@
   <body>
       参数：
        <%= request.getAttribute("appId") %>
+       <%=basePath %>
        <input type="hidden" id="appId" value="<%= request.getAttribute("appId") %>">
        <input type="hidden" id="timestamp" value="<%= request.getAttribute("timestamp") %>">
        <input type="hidden" id="nonceStr" value="<%= request.getAttribute("nonceStr") %>">
@@ -29,7 +34,7 @@
        测试按钮：
        <input type="button" value="获取活检照片" id="photo"/><br /><br />
         活检照片
-       <img src=""  id="huojianpic"/><br /><br />
+       <img src="" id="huojianpic" /><br /><br />
        <input type="button" value="设置标题" id="title"/><br /><br />
        <input type="button" value="扫描" id="saomiao"/><br /><br />
        <input type="button" value="选取照片" id="choseImg"/><br /><br />
@@ -55,15 +60,15 @@
                 // 成功返回{data:’文件块的base64’,isFinished:’1’}
                 // isFinished：0代表文件还有块未获取，1代表文件所有块已获取完毕
                     $.ajax({
-                        url: "qianyue/getPic.do",
+                        url: "<%=basePath %>/getPic.do",
                         type: "post",
                         dataType: "json",
-                        data: {"data": data},
+                        data: {"data": data.data},
                         success: function (res) {
-                            if(res){
-                                $("#huojianpic").src = res;
-                            }
-                        } 
+                            alert(res);
+                            alert("data"+res.data)
+                            $("#huojianpic").src = res;
+                        }
                     });
                 },
                 fail: function(err){

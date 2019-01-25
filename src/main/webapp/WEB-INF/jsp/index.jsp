@@ -12,6 +12,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>测试入口</title>
       <script src="<%= request.getContextPath() %>/js/jquery-3.3.1.js"></script>
+      <script src="<%= request.getContextPath() %>/js/jquery-1.11.2.min.js"></script>
       <script src="<%= request.getContextPath() %>/js/jquery.mobile-1.4.5.js"></script>
       <link rel="stylesheet" href="<%= request.getContextPath() %>/js/jquery.mobile-1.4.5.css">
   </head>
