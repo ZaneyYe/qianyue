@@ -33,11 +33,15 @@
        <br /><br />
        测试按钮：
        <input type="button" value="获取活检照片" id="photo"/><br /><br />
-        活检照片
+       活检照片:
        <img src="" id="huojianpic" /><br /><br />
        <input type="button" value="设置标题" id="title"/><br /><br />
        <input type="button" value="扫描" id="saomiao"/><br /><br />
        <input type="button" value="选取照片" id="choseImg"/><br /><br />
+       选取的照片:
+       <img src="" id="choseImgShow" /><br /><br />
+       <input type="button" value="获取地理位置" id="getLocationGps"/><br /><br />
+  
   </body>
 
 </html>
@@ -62,12 +66,12 @@
                     $.ajax({
                         url: "<%=basePath %>/getPic.do",
                         type: "post",
-                        dataType: "json",
+//                        dataType: "json",
                         data: {"data": data.data},
                         success: function (res) {
-                            alert(res);
-                            alert("data"+res.data)
-                            $("#huojianpic").src = res;
+                            console.log(res);
+                            $("#huojianpic").attr("width","100%");
+                            $("#huojianpic").attr("src",res);
                         }
                     });
                 },
@@ -106,13 +110,36 @@
                 sourceType: '1|2|3',
                 success: function (data) {
                     if (data.base64) {
-
+                        $.ajax({
+                            url: "<%=basePath %>/getPic.do",
+                            type: "post",
+//                            dataType: "json",
+                            data: {"data": data.base64},
+                            success: function (res) {
+                                console.log(res);
+                                $("#choseImgShow").attr("width","100%");
+                                $("#choseImgShow").attr("src",res);
+                            },
+                            fail: function (res) {
+                                alert(res);
+                            }
+                        });
                     }
                 }
             });
         });
 
-
+        //获取经纬度
+        $("#getLocationGps").click(function () {
+            upsdk.getLocationGps({
+                success: function (data) {
+                    alert("gps lat:" + data.latitude + ";\n lon : " + data.longitude);
+                },
+                fail: function () {
+                    alert("get gps failed")
+                }
+            });
+        })
 
 
     })

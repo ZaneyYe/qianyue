@@ -35,7 +35,7 @@ public class PicController {
 		//如果有换行，转一下
 		data = data.replaceAll("\n","");
 		if(StringUtils.isNotBlank(data)){
-			LOGGER.info("get data ok,{}",data);
+			LOGGER.info("get data ok");
 		}
 		Image image = ImgUtils.getImage(Base64Utils.decodeFromString(data));
 		String fileName = UUID.randomUUID().toString().replaceAll("-","") + ".png";
