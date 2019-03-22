@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+ path;
+%>
 <html>
   <head>
       <!-- meta使用viewport以确保页面可自由缩放 -->
@@ -17,9 +21,12 @@
       <link rel="stylesheet" href="<%= request.getContextPath() %>/js/jquery.mobile-1.4.5.css">
   </head>
   <body>
-      code : <%= request.getParameter("code")%> <br /> <input type="hidden" id="code" value="<%= request.getParameter("code")%>>">
+      code : <%= request.getParameter("code")%> <br /> <input type="hidden" id="code" value="<%= request.getParameter("code")%>">
       state : <%= request.getParameter("state") %><br />
       errmsg : <%= request.getParameter("errmsg") %><br />
+
+      <input type="button" value="获取用户信息" id="getUserInfo" /> <br />
+
 
       <input type="button" value="签约免密" id="qianyue"/><br />
 
@@ -31,6 +38,21 @@
 
 </html>
 <script>
+    $("#getUserInfo").click(function () {
+        var code = $("#code").val().replaceAll("\\+","%2B");
+        $.ajax({
+            url: "<%=basePath %>/getUserInfo.do",
+            type: "post",
+            data: {"code": code},
+            success: function (res) {
+                console.log(res);
+            }
+        })
+    });
+
+
+
+    
     $("#qianyue").click(function () {
         window.location.href = "https://open.95516.com/s/open/noPwd/html/open.html?appId=a5949221470c4059b9b0b45a90c81527" +
             "&redirectUri=http://47.98.179.66:8088/qianyue&responseType=code&scope=upapi_contract&state=qianyue";
