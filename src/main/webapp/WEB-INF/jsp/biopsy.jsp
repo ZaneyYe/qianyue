@@ -35,6 +35,10 @@
        <input type="button" value="获取活检照片" id="photo"/><br /><br />
        活检照片:
        <img src="" id="huojianpic" /><br /><br />
+       <input type="button" value="获取活检视频" id="vedio"/><br /><br />
+       <vedio id="faceVideoSrc"></vedio><br /><br />
+
+
        <input type="button" value="设置标题" id="title"/><br /><br />
        <input type="button" value="扫描" id="saomiao"/><br /><br />
        <input type="button" value="选取照片" id="choseImg"/><br /><br />
@@ -62,6 +66,11 @@
         <input type="button" value="打开屏幕截图权限（仅限android使用）" id="openScreenShot"/><br /><br />
         <input type="button" value="监听屏幕截屏（仅限ios使用）" id="monitorBtn"/><br /><br />
         <input type="button" value="移除监听屏幕截屏（仅限ios使用）" id="removeBtn"/><br /><br />
+
+        一键绑卡：<br />
+        sn：<input type="text" value="sn" id="snValue" /><br />
+        <input type="button" value="一键绑卡" id="oneBang" /><br />
+
   </body>
 
 </html>
@@ -104,6 +113,34 @@
                 }
             });
         });
+        
+        $("#vedio").click(function () {
+            upsdk.readFaceVideoData({
+                success:function(data){
+                // 成功返回{data:’文件块的base64’,isFinished:’1’}
+                // isFinished：0代表文件还有块未获取，1代表文件所有块已获取完毕
+                    alert(data.data);
+                    $("#faceVideoSrc").attr('src', 'data:video/mp4;base64,' + data.data);
+                    $.ajax({
+                        url: "<%=basePath %>/saveVideo.do",
+                        type: "post",
+                        data: {"data": data.data},
+                        success: function (res) {
+                            console.log(res);
+                        }
+                    });
+                },
+                fail: function(err){
+                // 失败回调{code:’失败码’, msg:’失败原因描述’}
+                // {code:’00’, msg:’参数错误’}
+                // {code:’01’, msg:’内部错误’}
+                // {code:’07’, msg:’文件不存在’}
+                    alert(JSON.stringify(err));
+               }
+           });
+        })
+
+
 
         //设置标题
         $("#title").click(function () {
@@ -177,6 +214,8 @@
             });
         })
 
+
+
         //地图导航
         $("#naviBtn").click(function () {
             var sLat = $("#sLat").val();
@@ -207,6 +246,7 @@
             var brightNess = $("#brightness").val();
             if(brightNess > 1){
                 alert("设置值在0-1之间");
+                return;
             }
             upsdk.setScreenBrightness({
                 brightness: brightNess,     // 屏幕亮度值，范围取值0-1。精确到小数点后一位
@@ -262,6 +302,16 @@
                 }
             });
         })
+
+        //一键绑卡
+        $("#oneBang").click(function () {
+             var sn = $("#snValue").val();
+             console.log(sn);
+             window.location.href = "upwallet://quickbindcard?sn="+sn;
+        })
+
+        
+
 
     })//config ready
 

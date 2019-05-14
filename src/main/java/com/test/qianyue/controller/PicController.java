@@ -63,5 +63,11 @@ public class PicController {
 	}
 
 
+	@RequestMapping(value = "/saveVideo.do",method = RequestMethod.POST)
+	@ResponseBody
+	public String saveVideo(HttpServletRequest request,String data){
+		LOGGER.info("data vedio:{}", data);
+		return "";
+	}
 
 }
