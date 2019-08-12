@@ -71,6 +71,15 @@
         sn：<input type="text" value="sn" id="snValue" /><br />
         <input type="button" value="一键绑卡" id="oneBang" /><br />
 
+	    绑卡：
+        <input type="button" value="一键绑卡" id="bandCard" /><br />
+	
+        分享：
+        <input type="button" value="分享" id="shareBtn" /><br />
+
+        添加应用到首页：
+        <input type="button" value="添加到首页" id="addAppBtn" /><br />
+
   </body>
 
 </html>
@@ -139,7 +148,17 @@
                }
            });
         })
-
+	
+	    $("#bandCard").click(function(){
+            upsdk.addBankCard({
+                success:function(){
+                    alert("绑卡成功");
+                },
+                fail:function(){
+                    alert("绑卡失败");
+                }
+            })
+	    })
 
 
         //设置标题
@@ -162,8 +181,8 @@
         //选择照片
         $("#choseImg").click(function () {
             upsdk.chooseImage({
-                maxWidth: '500',
-                maxHeight: '1000',
+                maxWidth: '',
+                maxHeight: '',
                 sourceType: '1|2|3',
                 success: function (data) {
                     if (data.base64) {
@@ -184,6 +203,7 @@
                 }
             });
         });
+ 
 
         //获取经纬度
         $("#getLocationGps").click(function () {
@@ -202,11 +222,12 @@
             });
         })
 
-        //设置右边栏
-        $("#setRightBtn").click(function () {
+       
+       //设置右边栏
+       $("#setRightBtn").click(function () {
             upsdk.setNavigationBarRightButton({
-                title:  '什么鬼',
-                image: '',
+                title:  '',
+                image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564718555559&di=fec3244488abc89b5527081f6457282b&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F18%2F01%2F21%2Ff7dd1e0cf95c0084d4bd8a7b6afc6213.jpg%2521%2Ffwfh%2F804x804%2Fquality%2F90%2Funsharp%2Ftrue%2Fcompress%2Ftrue',
                 handler: function(){
                      // 用户点击标题按钮以后回调函数
                      alert("该吃药了");
@@ -309,9 +330,49 @@
              console.log(sn);
              window.location.href = "upwallet://quickbindcard?sn="+sn;
         })
-
         
+        //分享
+        $("#shareBtn").click(function () {
+            upsdk.showSharePopup({
+                title : '银联云闪付随机立减大优惠～！',
+                desc : '我刚刚使用银联云闪付, 省了30元,大家快来使用吧.',
+                shareUrl : 'https://youhui.95516.com',
+                picUrl : 'https://unionpay.d-energy.cn/WeChat/images/share_icon.jpg'
+            })
+        })
 
+        //添加应用到首页
+        $("#addAppBtn").click(function () {
+            upsdk.addCommonApp({
+                url: 'http://47.98.179.66:8088/qianyue',     // 必填，应用的入口url，此url必须是后台配置中存在的url。
+                success: function (data) {
+                    // 成功回调 {code:’00’,msg:’添加成功’ } ，指首页应用未满，直接添加的场景
+                    // 成功回调 {code:’01’,msg:’替换成功’ } ，指首页应用已满，替换应用的场景
+                    if(typeof data == 'string'){
+                        data = JSON.parse(data);
+                    }
+                    if(data.code == '00'){
+                        alert("添加成功");
+                    }else{
+                        alert("替换成功");
+                    }
+                },
+                fail: function (data) {
+                    // 失败回调 {code:’02’,msg:’用户取消’}
+                    // 失败回调 {code:’03’,msg:’信息为空’} ，调用后台接口成功，但相应内容为空的场景
+                    // 失败回调 {code:’04’,msg:’应用信息已存在常用应用中’}
+                    // 失败回调 {code:’05’,msg:’请先登录’}
+                    // 失败回调 {code:’99’,msg:’参数错误’}
+                    // 其它失败回调 {code:’’,msg:’’}
+                    if(typeof data == 'string'){
+                        var obj = JSON.parse(data);
+                        alert("code:" + obj.code + ";\n  msg : " + obj.msg);
+                    } else {
+                        alert("code:" + data.code + ";\n msg : " + data.msg);
+                    }
+                }
+            })
+        })
 
     })//config ready
 

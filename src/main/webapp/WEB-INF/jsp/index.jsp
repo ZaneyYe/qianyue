@@ -60,7 +60,7 @@
     });
 
     $("#ceshi").click(function () {
-        window.location.href = "https://open.95516.com/s/open/html/oauth.html?appId=d43714e0246a435e87037f80495d2c6d&redirectUri=http://47.98.179.66:8088/qianyue&responseType=code&scope=upapi_mobile&state=STATE";
+        window.location.href = "https://open.95516.com/s/open/noPwd/html/open.html?appId=374127b654674fb29de1e0134ebb81f2&redirectUri=http%3A%2F%2Ftest.itf.upm.wasu.tv%2Fthird-interface%2Funionpay%2Fauthcode%2Fcallback.do&responseType=code&scope=upapi_contract&planId=c03645792a154ba49a3248e700fee062&state=10215398283270000001613";
     })
 
     $("#chajian").click(function () {

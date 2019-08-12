@@ -36,4 +36,10 @@ public class Sha256Utils {
 		return sb.toString();
 	}
 
+
+	public static void main(String[] args){
+		String str = "appId=ddaa1881e464459e8230122c578b7cf5&nonceStr=6uELgwFkDqIzaLGY&timestamp=1562039512&url=https://ebank.dgcb.com.cn:18086/index.html";
+		System.out.println(sha256(str.getBytes()));
+	}
+
 }
