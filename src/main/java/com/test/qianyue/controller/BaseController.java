@@ -35,7 +35,7 @@ public class BaseController {
 
 	@RequestMapping(value = "/toBiopsy.do",method = RequestMethod.GET)
 	public String toBiopsy(HttpServletRequest request,Map<String,Object> dataMap){
-		String appId = "d43714e0246a435e87037f80495d2c6d";
+		String appId = Config.APPID;
 		String timestamp = String.valueOf(System.currentTimeMillis()/1000);
 		String nonceStr = Utils.createNonceStr();
 		String frontToken = "";

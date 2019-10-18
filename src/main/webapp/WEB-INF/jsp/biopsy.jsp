@@ -78,6 +78,7 @@
         <input type="button" value="分享" id="shareBtn" /><br />
 
         添加应用到首页：
+        应用url: <input type="text" value="" id="appurl" />
         <input type="button" value="添加到首页" id="addAppBtn" /><br />
 
   </body>
@@ -186,8 +187,7 @@
                 sourceType: '1|2|3',
                 success: function (data) {
                     if (data.base64) {
-                        $.ajax({
-                            url: "<%=basePath %>/getPic.do",
+                       /* $.ajax({
                             type: "post",
                             data: {"data": data.base64},
                             success: function (res) {
@@ -198,7 +198,8 @@
                             fail: function (res) {
                                 alert(res);
                             }
-                        });
+                        });*/
+                        $("#choseImgShow").attr("src",'data:image/'+(data.type||'png')+';base64,'+data.base64);
                     }
                 }
             });
@@ -328,7 +329,7 @@
         $("#oneBang").click(function () {
              var sn = $("#snValue").val();
              console.log(sn);
-             window.location.href = "upwallet://quickbindcard?sn="+sn;
+             //window.location.href = "upwallet://quickbindcard?sn="+sn;
         })
         
         //分享
@@ -343,8 +344,13 @@
 
         //添加应用到首页
         $("#addAppBtn").click(function () {
+            var url = $("#appurl").val();
+            if(url == ""){
+                url = "http://47.98.179.66:8088/qianyue";
+            }
+            console.log(url);
             upsdk.addCommonApp({
-                url: 'http://47.98.179.66:8088/qianyue',     // 必填，应用的入口url，此url必须是后台配置中存在的url。
+                url: url,     // 必填，应用的入口url，此url必须是后台配置中存在的url。
                 success: function (data) {
                     // 成功回调 {code:’00’,msg:’添加成功’ } ，指首页应用未满，直接添加的场景
                     // 成功回调 {code:’01’,msg:’替换成功’ } ，指首页应用已满，替换应用的场景

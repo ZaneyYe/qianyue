@@ -1,5 +1,6 @@
 package com.test.qianyue;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
 /**
@@ -38,8 +39,10 @@ public class Sha256Utils {
 
 
 	public static void main(String[] args){
-		String str = "appId=ddaa1881e464459e8230122c578b7cf5&nonceStr=6uELgwFkDqIzaLGY&timestamp=1562039512&url=https://ebank.dgcb.com.cn:18086/index.html";
-		System.out.println(sha256(str.getBytes()));
+		String str = "appId=c7233f3b569541a0aa15d6d188766a24&nonceStr=wbUPZCYxhlHhAwiD&secret=c7233f3b569541a0aa15d6d188766a24&timestamp=1567074361";
+//		String str = "1234";
+		System.out.println(sha256(str.getBytes(Charset.forName("UTF-8"))));
+
 	}
 
 }
