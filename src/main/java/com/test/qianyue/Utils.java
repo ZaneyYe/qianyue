@@ -27,8 +27,8 @@ public class Utils {
 	private static final String backendToken_url = "https://open.95516.com/open/access/1.0/backendToken";
 //   private static final String backendToken_url = "https://openapi.unionpay.com/upapi/backendToken";
 
-//	private static final String frontToken_url  = "https://open.95516.com/open/access/1.0/frontToken";
-    private static final String frontToken_url  = "https://openapi.unionpay.com/upapi/upWallet/frontToken";
+	private static final String frontToken_url  = "https://open.95516.com/open/access/1.0/frontToken";
+//    private static final String frontToken_url  = "https://openapi.unionpay.com/upapi/upWallet/frontToken";
 
 	private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -87,8 +87,7 @@ public class Utils {
 		map.put("appId", appId);
 		map.put("secret", secret);
 		map.put("nonceStr", createNonceStr());
-//		map.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
-		map.put("timestamp", String.valueOf(System.currentTimeMillis()));
+		map.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
 		String waitToSign = MyHttpClient.coverMap2String(map);
 		String sign = Sha256Utils.sha256(waitToSign.getBytes());
 		map.put("signature", sign);
