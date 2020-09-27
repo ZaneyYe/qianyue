@@ -2,6 +2,7 @@ package com.test.qianyue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -106,7 +107,30 @@ public class MyHttpClient {
 	}
 
 
+	/**
+	 * get请求
+	 * @param targetUrl
+	 * @return
+	 * @throws IOException
+	 */
+	public static String sendGet(String targetUrl){
+		HttpGet get = new HttpGet(targetUrl);
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		String response = "";
+		try {
+			CloseableHttpResponse result = httpclient.execute(get);
+//			 请求结束，返回结果
+			response = EntityUtils.toString(result.getEntity());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		LOGGER.info("sentclient response: {}",response);
+		return response;
+	}
 
+	public static void main(String[] args) throws IOException {
+		System.out.println(sendGet("https://www.baidu.com"));
+	}
 
 
 }

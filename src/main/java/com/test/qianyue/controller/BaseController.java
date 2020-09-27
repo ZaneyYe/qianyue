@@ -64,4 +64,35 @@ public class BaseController {
 		return "/biopsy";
 	}
 
+
+	@RequestMapping(value = "/toWeixin.do",method = RequestMethod.GET)
+	public String toWeiXin(HttpServletRequest request,Map<String,Object> dataMap){
+		String appId = Config.WX_APPID;
+		String nonceStr = Utils.createNonceStr();
+		String ticket = "";
+		try {
+			ticket = Utils.getWxTicket(Config.WX_APPID,Config.WX_SCRECT);
+		} catch (Exception e) {
+			LOGGER.info("get ticket error");
+			e.printStackTrace();
+		}
+		String url = "http://47.98.179.66:8088/qianyue/toWeixin.do";
+		HashMap<String,String> map = new HashMap();
+		String timestamp = String.valueOf(System.currentTimeMillis()/1000);
+		//json方式
+		map.put("timestamp", timestamp);
+		map.put("nonceStr", nonceStr);
+		map.put("jsapi_ticket", ticket);
+		map.put("url", url);
+		String waitToSign = MyHttpClient.coverMap2String(map);
+		LOGGER.info("wait to sign : {}", waitToSign);
+		String sign = Sha256Utils.sha256(waitToSign.getBytes());
+		LOGGER.info("sign : {}", sign);
+		dataMap.put("appId", appId);
+		dataMap.put("timestamp", timestamp);
+		dataMap.put("nonceStr", nonceStr);
+		dataMap.put("signature", sign);
+		return "/weixin";
+	}
+
 }

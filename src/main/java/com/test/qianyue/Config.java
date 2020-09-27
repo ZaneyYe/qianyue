@@ -17,4 +17,12 @@ public class Config {
 	//科技开放平台
 //    public static final String SCRECT = "6a57bb422f5fe14daaeac293b0c7d75b";
 
+	public static final String WX_APPID = "wxa899ea60acb841e7";
+
+	public static final String WX_SCRECT = "e9d76a84dec60723f0a7fd6176f20e44";
+
+	public static final String WX_TOKEN_URL = "";
+
+//	public static final String
+
 }

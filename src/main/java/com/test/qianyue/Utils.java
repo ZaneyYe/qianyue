@@ -3,6 +3,7 @@ package com.test.qianyue;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.JsonParser;
 import com.test.qianyue.respo.BackendTokenResponse;
 import com.test.qianyue.respo.FrontTokenResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -128,6 +129,30 @@ public class Utils {
 		return "";
 	}
 
+	//获取微信的token
+	public static String getWxToken(String appId,String secret){
+		String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+secret;
+		String result = MyHttpClient.sendGet(token_url);
+		String token = "";
+		if(StringUtils.isNotBlank(result)){
+			 token = new JsonParser().parse(result).getAsJsonObject().get("access_token").getAsString();
+		}
+		return token;
+	}
+
+	//获取微信的ticket
+	public static String getWxTicket(String appId,String secret){
+		String wxToken = getWxToken(appId,secret);
+		logger.info("获取到token：{}",wxToken);
+		String ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+wxToken+"&type=jsapi";
+		String result = MyHttpClient.sendGet(ticketUrl);
+		String jsapi_ticket = "";
+		if(StringUtils.isNotBlank(result)){
+			jsapi_ticket = new JsonParser().parse(result).getAsJsonObject().get("ticket").toString();
+		}
+		return jsapi_ticket;
+	}
+
 
 	public static String createNonceStr() {
 		StringBuilder sb = new StringBuilder();
@@ -143,8 +168,14 @@ public class Utils {
 
 
 	public static void main(String[] args) throws IOException {
-		String frontToken = getFrontToken("d43714e0246a435e87037f80495d2c6d", "b3b15e5dee9b479b9011b43ca47f753e");
-		System.out.println(frontToken);
+//		String frontToken = getFrontToken("d43714e0246a435e87037f80495d2c6d", "b3b15e5dee9b479b9011b43ca47f753e");
+//		System.out.println(frontToken);
+
+//		String json = "{\"a\":\"1\",\"b\":\"2\"}";
+//		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+//		System.out.println(jsonObject.get("a"));
+
+		System.out.println(getWxTicket("wxa899ea60acb841e7","e9d76a84dec60723f0a7fd6176f20e44"));
 	}
 
 
