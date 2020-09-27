@@ -19,6 +19,8 @@
       <script src="<%= request.getContextPath() %>/js/jquery-1.11.2.min.js"></script>
       <script src="<%= request.getContextPath() %>/js/jquery.mobile-1.4.5.js"></script>
       <link rel="stylesheet" href="<%= request.getContextPath() %>/js/jquery.mobile-1.4.5.css">
+      <script src="https://open.95516.com/s/open/js/upsdk.js"></script>
+	  <script src="<%= request.getContextPath() %>/js/clipboard.js"></script>
   </head>
   <body>
       code : <%= request.getParameter("code")%> <br /> <input type="hidden" id="code" value="<%= request.getParameter("code")%>">
@@ -28,17 +30,31 @@
       <input type="button" value="获取用户信息" id="getUserInfo" /> <br />
 
 
-      <input type="button" value="签约免密" id="qianyue"/><br />
+      <input type="button" value="link跳转" id="linkTo"/><br />
 
-      <input type="button" value="生成code" id="ceshi" /><br />
+      <input type="button" value="小程序生成code" id="getCode" /><br />
 
       <input type="button" value="测试插件" id="chajian" /><br />
 
+      <input type="button" value="分享" id="shareTest" /><br />
 
+	  <button class="btn">复制</button>
+
+	   <input type="button" value="关注小程序" id="collectCurrent" /><br />
   </body>
 
 </html>
 <script>
+   // setTimeout(function(){
+	upsdk.pluginReady(function(){
+		console.log('123');
+		upsdk.addConsole();
+		upsdk.setNavigationBarTitle({
+			title:"修改成功"
+		})
+	})
+   // }, 1000)
+    
     $("#getUserInfo").click(function () {
         var code = $("#code").val().replaceAll("\\+","%2B");
         $.ajax({
@@ -48,23 +64,87 @@
             success: function (res) {
                 console.log(res);
             }
+        });
+	window.location.href='chsp://cityservice.95516.com';
+    });
+    
+
+
+    $("#getCode").click(function () {
+        
+ 	upsdk.appletAuth({
+            success: function (data) {
+               	 alert(data.code);
+		 console.log("获取到的code ：" + JSON.stringify(data));
+            },
+            fail: function (error) {
+                console.log("获取code失败" + JSON.stringify(error));
+            }
         })
+	/**
+	upsdk.showSharePopup({
+		title:"分享xxxx",
+		desc:"描述yyyy",
+		shareUrl:"https://www.baidu.com",
+		picUrl:"http://paytest.95577.com.cn/unionpay/CloudFlashover/img/why_black@3x.png"
+	})
+	
+	upsdk.openApplet({
+		appId: "6cdc1348f9223726",
+		fail:function(code){
+			console.log(code);	
+		}
+	})
+	**/
+    })
+
+
+	var clipboard = new ClipboardJS('.btn', {
+        text: function() {
+            return 'hello success';
+        }
     });
 
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+
+
+   $("#collectCurrent").click(function () {
+        upsdk.collectCurrentApplet({
+	    success: function (data) {
+				 console.log("获取到的code ：" + JSON.stringify(data));
+            },
+            fail: function (error) {
+                console.log("获取code失败" + JSON.stringify(error));
+            }
+	})
+    });
 
 
     
-    $("#qianyue").click(function () {
-        window.location.href = "https://open.95516.com/s/open/noPwd/html/open.html?appId=a5949221470c4059b9b0b45a90c81527" +
-            "&redirectUri=http://47.98.179.66:8088/qianyue&responseType=code&scope=upapi_contract&state=qianyue";
+    $("#linkTo").click(function () {
+        window.location.href = "https://usl.95516.com/applet?encryptAppId=6cdc1348f9223726";
+		//window.close();
     });
 
-    $("#ceshi").click(function () {
-        window.location.href = "https://open.95516.com/s/open/noPwd/html/open.html?appId=374127b654674fb29de1e0134ebb81f2&redirectUri=http%3A%2F%2Ftest.itf.upm.wasu.tv%2Fthird-interface%2Funionpay%2Fauthcode%2Fcallback.do&responseType=code&scope=upapi_contract&planId=c03645792a154ba49a3248e700fee062&state=10215398283270000001613";
+    $("#shareTest").click(function () {
+        upsdk.showSharePopup({
+			title:"分享test",
+			desc:"小程序分享测试",
+			shareUrl: "http://47.98.179.66:8088/qianyue",
+			picUrl:"http://paytest.95577.com.cn/unionpay/CloudFlashover/img/why_black@3x.png"
+		})
     })
 
+	
+
     $("#chajian").click(function () {
-        window.location.href = "http://47.98.179.66:8088/qianyue/toBiopsy.do";
+        location.href = "http://47.98.179.66:8088/qianyue/toBiopsy.do";
     })
 
 </script>

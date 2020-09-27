@@ -72,9 +72,77 @@
         <input type="button" value="一键绑卡" id="oneBang" /><br />
 
 	    关闭：
-	    <input type="button" value="关闭" id="closeApp" />
+	    <input type="button" value="关闭" id="closeApp" /><br />
+
+       扫一扫：
+       <input type="button" value="扫一扫" id="zhusao" /><br />
+
+       被扫：
+       <input type="button" value="被扫" id="beisao" /><br />
+
+       <hr />
+
+       预准备：
+       <input type="button" value="跳转徽商银行预准备" id="prepareApp"/><br />
+
+       打开小程序：
+       <input type="button" value="打开小程序" id="openApp" /><br />
 
 
+       url：<input type="text" value="输入打开的网址" id="url" /><br />
+       <input type="button" value="新打开webview" id="creatWebView" /><br />
+
+       数据存储：<br />
+       key：<input type="text" value="" id="key" /><br />
+       value: <input type="text" value="" id="val" /><br />
+       <input type="button" value="数据存贮" id="saveData" /><br />
+
+       key值: <input type="text" value="" id="qkey" /><br />
+       <input type="button" value="获取" id="queryData" /><br />
+       <input type="button" value="删除" id="deleteData" /><br />
+
+       <input type="button" value="获取已存储数据key值" id="getAllKeysBtn" /><br />
+
+       <input type="button" value="删除已存储数据key值" id="deleteAllKeysBtn" /><br />
+
+       <input type="button" value="打开rn页" id="openRN" /><br />
+       
+       背景: <input type="text" value="" id="color" /><br />
+       样式: <input type="text" value="" id="style" /><br />
+       返回是否显示: <input type="text" value="" id="btnv" /><br />
+       标题栏是否显示：	<input type="text" value="" id="titleVis" /><br />
+       渐变色方向：	<input type="text" value="" id="gradientOrient" /><br />
+       渐变色起始颜色：<input type="text" value="" id="startColor" /><br />
+       渐变色结束颜色：<input type="text" value="" id="endColor" /><br />
+       <input type="button" value="设置小程序导航栏" id="titleStyle" /><br />
+       
+       
+       <input type="button" value="获取屏幕分辨率" id="getScreen" /><br />
+       
+       
+        <input type="button" value="获取最近使用小程序" id="userAppletList" /><br />
+        
+        小程序id：<input type="text" value="" id="applets_id_del" /><br />
+        <input type="button" value="删除最近使用小程序" id="deleteAppletList" /><br />
+        
+        关注小程序id:<input type="text" value="" id="applets_id_col" /><br />
+        <input type="button" value="关注小程序" id="collectApplet" /><br />
+        
+        取消关注小程序id:<input type="text" value="" id="applets_id_cac" /><br />
+
+        <input type="button" value="取消关注小程序" id="cancelCollectApplet" /><br />
+        
+        获取我的关注列表：
+        <input type="button" value="获取我的关注列表" id="getAppletList" /><br />
+
+        自定义渠道分享：
+        <input type="button" value="自定义渠道分享" id="showSharePP" /><br />
+
+
+        <a href="tel:18905565507">拨打电话</a><br />
+
+				链接:<input type="text" value="" id="outLink" /><br />
+				<input type="button" value="跳转" id="linkTo" /><br />
   </body>
 
 </html>
@@ -94,6 +162,16 @@
 
     //验证通过执行
     upsdk.ready(function () {
+    	
+    		$("#linkTo").click(function(){
+    				var link = $("#outLink").val();
+    				location.href = link;
+    			})
+    	
+        console.log("hello");
+	 			
+        upsdk.addConsole();
+
         //活检照片
         $("#photo").click(function () {
             upsdk.readFaceImageData({
@@ -164,18 +242,10 @@
                 scanType: ["qrCode","barCode"],
                 success: function(result){
                     alert("Scan result = " + result);
-		    upsdk.pay({
-			tn: result,
-			success: function(){
-				alert("ok")
-			},
-			fail:function(err){
-				alert("fail")
-			}	
-   		    })
                 }
           });
         });
+        
 
         //选择照片
         $("#choseImg").click(function () {
@@ -223,16 +293,23 @@
         //设置右边栏
         $("#setRightBtn").click(function () {
             upsdk.setNavigationBarRightButton({
-                title:  '什么鬼',
-                image: '',
+//                title:  '什么鬼',
+//                image: '',
+                image: 'http://paytest.95577.com.cn/unionpay/CloudFlashover/img/why_black@3x.png',
                 handler: function(){
                      // 用户点击标题按钮以后回调函数
-                     alert("该吃药了");
+                     alert("ok");
+		     upsdk.showSharePopup({
+                	title:"分享xxxx",
+                	desc:"描述yyyy",
+                	shareUrl:"https://www.baidu.com",
+                	picUrl:"http://paytest.95577.com.cn/unionpay/CloudFlashover/img/why_black@3x.png"
+       		       })
+
                 }
             });
         })
-
-
+      
 
         //地图导航
         $("#naviBtn").click(function () {
@@ -328,10 +405,240 @@
              window.location.href = "upwallet://quickbindcard?sn="+sn;
         })
 
+        //主扫
+        $("#zhusao").click(function(){
+            upsdk.scanQRCodeNew()
+        })
+
+        //被扫
+        $("#beisao").click(function(){
+            upsdk.qrCodePay()
+        })
+
+        //预准备
+        $("#prepareApp").click(function(){
+            upsdk.prepareApplet({
+                appId : "6f2e617262261415",
+                fail:function(code){
+                    alert(code);
+                }
+            })
+        })
+
+        //打开小程序
+        $("#openApp").click(function(){
+            upsdk.openApplet({
+                appId : "6f2e617262261415",
+								param:"k1=v1&k2=v2",
+                fail:function(code){
+                    alert(code);
+                }
+            })
+        })
+
+        //webview打开
+        $("#creatWebView").click(function () {
+            var url = $("#url").val()
+            upsdk.createWebView({
+                url: url,  // webview容器中运行的目标页面地址
+                isFinish:'0'  //是否关闭当前的窗口,'1':关闭，'0':不关闭
+             })
+        })
+
+
+        //数据存储
+        $("#saveData").click(function () {
+            var key = $("#key").val();
+            var val = $("#val").val()
+            upsdk.saveData({
+                key: key,
+                value: val,
+                success:function(result){
+                  console.log(result.code)
+                }
+            })
+        })
+
+        //查询key值
+        $("#queryData").click(function () {
+            var qkey = $("#qkey").val();
+            upsdk.queryData({
+                key: qkey,
+                success:function(result){
+                    // result = {code:'',msg:'',key:'xxx',value:'xxx'}
+                    console.log("查询 ："+  JSON.stringify(result));
+                }
+            });
+        })
+
+        //删除key
+        $("#deleteData").click(function () {
+            var qkey = $("#qkey").val();
+            upsdk.deleteData({
+                key:qkey,
+                success:function(result){
+                    console.log("删除 ：" + JSON.stringify(result));
+                }
+            });
+        })
+
+        //删除所有key值
+        $("#deleteAllKeysBtn").click(function () {
+            upsdk.deleteAllKeys({
+                success:function(result){
+                    console.log("删除所有 ：" + JSON.stringify(result));
+                }
+            })
+        })
         
+        //获取所有key值
+        $("#getAllKeysBtn").click(function () {
+            upsdk.getAllKeys({
+                success:function(result){
+                    console.log("获取所有 ：" + JSON.stringify(result));
+                }
+            })
+        })
+
+				//打开rn页
+				$("#openRN").click(function(){
+							upsdk.openRNPage({
+								dest: "rncoupondetail",
+								extraData: {
+									couponId: "1320200528258446",
+									updTs:"",
+									prePage:"",
+									billSt:"",
+									billNum:""
+								}
+							})
+				})
+				
+				//设置导航栏
+				$("#titleStyle").click(function(){
+					var color = $("#color").val();
+					var costyle = $("#style").val();
+					var btnv= $("#btnv").val();
+					var titleVis=$("#titleVis").val();
+					var gradientOrient=$("#gradientOrient").val();
+					var startColor=$("#startColor").val();
+					var endColor=$("#endColor").val();
+					console.log("124");
+					upsdk.setTitleStyle({
+						navBackgroundColor: color,
+						appletStyle:costyle,
+						backBtnVisible:btnv,
+						appletTitleBarVisible:titleVis,
+						appletTitleGradientOrient:gradientOrient,
+						appletTitleGradientStartColor:startColor,
+						appletTitleGradientEndColor:endColor
+					})
+				})
+				
+				//获取屏幕分辨率
+				$("#getScreen").click(function(){
+						upsdk.getScreenParams({
+								success:function(data){  
+									// 成功回调 data 详细内容见下面说明
+									 console.log("获取所有 ：" + JSON.stringify(data));
+									 alert(JSON.stringify(data));
+								}
+						});
+				})
+				
+				
+				//获得最近使用
+				$("#userAppletList").click(function(){
+                        upsdk.recentlyUsedAppletList({
+                                 success:function(data){
+                                     console.log("获取所有最近使用 ：" + JSON.stringify(data));
+                                 },
+                                 fail:function(error){
+                                 // 失败回调 error={"code":""}
+                                 // ‘01’:用户未登录，’02’:其它错误
+                                     console.log("获取最近使用失败" + JSON.stringify(error));
+                                 }
+                         })
+				})
+
+				
+				//删除最近使用
+				$("#deleteAppletList").click(function(){
+                     var del_appid = $("#applets_id_del").val();
+                     upsdk.deleteRecentlyUsedApplet({
+                     appIdList:[del_appid],
+                     success:function(data){
+                             console.log("删除是否成功：" + JSON.stringify(data));
+                     },
+                     fail:function(error){
+                           console.log("删除失败" + JSON.stringify(error));
+                     }
+                     })
+				})
+               
+        
+        //关注小程序
+        $("#collectApplet").click(function () {
+            var col_appid = $("#applets_id_col").val();
+            upsdk.collectApplet({
+                encryptAppId: col_appid,
+                success:function(data){
+                // 成功回调 data={"code":"00"}
+                    alert("关注成功");
+                    console.log("关注成功：" + JSON.stringify(data));
+               },
+              fail:function(error){
+                  console.log("关注失败" + JSON.stringify(error));
+              }
+          })
+        })
+
+         //取消关注小程序
+         $("#cancelCollectApplet").click(function () {
+             var cac_col_appid = $("#applets_id_cac").val();
+             upsdk.cancelCollectApplet({
+                 encryptAppId: cac_col_appid,
+                 success:function(data){
+                     alert("取消关注成功");
+                     console.log("取消关注成功：" + JSON.stringify(data));
+                 },
+                 fail:function(error){
+                     console.log("取消关注失败" + JSON.stringify(error));
+                 }
+              });
+         })
 
 
-    })//config ready
+        //获取关注列表
+       $("#getAppletList").click(function () {
+           upsdk.getAppletCollectionList({
+               success:function(data){
+                   console.log("获取关注列表：" + JSON.stringify(data));
+               },
+               fail:function(error){
+                   console.log("获取关注列表失败" + JSON.stringify(error));
+               }
+           });
+       })
+        
+   					
+        //自定义渠道分享
+        $("#showSharePP").click(function(){
+                upsdk.showShareMorePanel({
+                    title: '银联云闪付随机立减大优惠～！',
+                desc :"描述yyyy",
+                shareUrl :"https://www.baidu.com",
+                picUrl: "http://paytest.95577.com.cn/unionpay/CloudFlashover/img/why_black@3x.png",
+                shareList: [{shareId:'3', shareType:'',shareData:{}}],
+                fail: function(code){
+                                    //code: ‘01’:对应渠道的应用未安装，例如微信未安装，或该渠道调用失败
+                         console.log(code);
+                      }
+                });
+        	}
+        )
+   
+	})//config ready
 
 
     //验证失败执行
