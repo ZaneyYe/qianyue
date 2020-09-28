@@ -148,7 +148,7 @@ public class Utils {
 		String result = MyHttpClient.sendGet(ticketUrl);
 		String jsapi_ticket = "";
 		if(StringUtils.isNotBlank(result)){
-			jsapi_ticket = new JsonParser().parse(result).getAsJsonObject().get("ticket").toString();
+			jsapi_ticket = new JsonParser().parse(result).getAsJsonObject().get("ticket").getAsString();
 		}
 		return jsapi_ticket;
 	}

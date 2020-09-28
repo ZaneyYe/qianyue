@@ -61,6 +61,7 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
         <url-pattern>*.css</url-pattern>
+        <url-pattern>*.txt</url-pattern>
         <url-pattern>/static/*</url-pattern>
         <url-pattern>/dist/*</url-pattern>
         <url-pattern>/uploadPic/*</url-pattern>

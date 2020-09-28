@@ -21,8 +21,9 @@ public class Config {
 
 	public static final String WX_SCRECT = "e9d76a84dec60723f0a7fd6176f20e44";
 
-	public static final String WX_TOKEN_URL = "";
+	public static final String WX_TOKEN_CHECK = "pVr6VzMBRRKzE8UM";
 
-//	public static final String
+	public static final String WX_AES_KEY = "gYfd0qkfHlxeXFvUJ9sSy5vaLZz6pp6NYoISXuANzEP";
+
 
 }

@@ -144,7 +144,7 @@
 	
 
     $("#chajian").click(function () {
-        location.href = "http://47.98.179.66:8088/qianyue/toBiopsy.do";
+        window.location.href = "http://47.98.179.66:8088/qianyue/toBiopsy.do";
     })
 
 </script>
