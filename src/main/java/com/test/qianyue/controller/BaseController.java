@@ -76,7 +76,7 @@ public class BaseController {
 			LOGGER.info("get ticket error");
 			e.printStackTrace();
 		}
-		String url = "http:/itgogo.top/qianyue/toWeixin.do";
+		String url = "http://itgogo.top/qianyue/toWeixin.do";
 		HashMap<String,String> map = new HashMap();
 		String timestamp = String.valueOf(System.currentTimeMillis()/1000);
 		//json方式
